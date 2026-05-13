@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Raw data sources and intermediate parser outputs
+*.docx
+clean_es.md
+clean_paragraphs.txt
+clean_paragraphs_en.txt
+output_es.md
+/scratch/

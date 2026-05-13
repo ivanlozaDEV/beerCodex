@@ -1,26 +1,196 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Light Mode: Warm clean cream/grey background from brand manual (#F4F4F4) */
+  --background: #F4F4F4;
+  --foreground: #0D1B2A; /* Deep Navy text */
+  
+  /* Card styles optimized for contrast */
+  --card-bg: #FFFFFF; 
+  --card-border: rgba(13, 27, 42, 0.12); /* Crisp Navy border */
+  --glass-bg: rgba(255, 255, 255, 0.92); /* Highly opaque for 100% contrast */
+  --glass-blur: 16px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Dark Mode: Deep Navy Base (#0D1B2A) */
+    --background: #0D1B2A;
+    --foreground: #F4F4F4; /* Clean Cream/White text */
+    
+    /* Medium Navy Container for outstanding contrast (#1B263B) */
+    --card-bg: #1B263B;
+    --card-border: rgba(242, 183, 5, 0.25); /* Golden Accent border */
+    --glass-bg: rgba(27, 38, 59, 0.95); /* Opaque overlay for maximum text readability */
+    --glass-blur: 20px;
   }
 }
 
+@theme {
+  /* Base system mappings */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  /* ─── BRAND CORPORATE COLORS (NORTE) ─── */
+  --color-brand-navy: #0D1B2A;  /* Primary Darkest */
+  --color-brand-blue: #1B263B;  /* Secondary Base */
+  --color-brand-gold: #F2B705;  /* Warm Radiant Yellow */
+  --color-brand-teal: #2A9D8F;  /* Active Aqua/Teal accent */
+  --color-brand-cream: #F4F4F4; /* Warm Neutral Light */
+
+  /* ─── LEGACY COMPATIBILITY ALIASES ─── */
+  /* Mapped to new corporate colors to guarantee logic & layout integrity */
+  --color-pilsner-gold: #F2B705; /* Overwritten with Brand Gold */
+  --color-amber-ale: #F2B705;    /* Overwritten with Brand Gold */
+  --color-stout-dark: #0D1B2A;   /* Overwritten with Brand Navy */
+  --color-stout-black: #070F18;  /* Extra-deep brand navy */
+  --color-foam-cream: #F4F4F4;   /* Brand Light Cream */
+  --color-hop-green: #2A9D8F;    /* Brand Teal Accent */
+  --color-hop-light: #2A9D8F;
+  
+  /* ─── TYPOGRAPHY ─── */
+  /* Poppins integration using next/font bindings or system fallback */
+  --font-sans: var(--font-poppins), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* Base system setup */
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Premium High-Contrast Card */
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Highly Opaque Modal for 100% readability */
+.glass-modal {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--card-border);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* Clean dynamic scrollbars matching brand gold accent */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(13, 27, 42, 0.05); /* Subtle inset track */
+  border-radius: 5px;
+}
+
+/* Light Mode Scrollbar: Highly visible Medium Navy */
+::-webkit-scrollbar-thumb {
+  background: rgba(13, 27, 42, 0.35);
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(13, 27, 42, 0.6);
+  background-clip: padding-box;
+}
+
+/* Dark Mode Scrollbar: Deep Luminous Radiant Gold */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgba(242, 183, 5, 0.45);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(242, 183, 5, 0.8);
+    background-clip: padding-box;
+  }
+}
+
+/* Typography helper for premium branding headers like 'Norte' */
+.brand-header-title {
+  letter-spacing: 0.05em;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+/* Premium Interactive Utilities */
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 55%
+  );
+  transform: translate(-100%, -100%);
+  transition: transform 0.7s ease;
+}
+
+.shine-effect:hover::after {
+  transform: translate(100%, 100%);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+/* Smooth dynamic grid reveal utility */
+.cascade-item {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cascade-item:hover {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 12px 30px -10px rgba(242, 183, 5, 0.15);
+  border-color: rgba(242, 183, 5, 0.4);
 }
