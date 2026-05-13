@@ -239,7 +239,7 @@ export default function BeerMatchmaker({
                       : "bg-white/5 border-white/10 hover:border-pilsner-gold/30"
                   }`}
                 >
-                  {opt.color !== "transparent" ? (
+                  {"color" in opt && opt.color && opt.color !== "transparent" ? (
                     <div 
                       className="w-8 h-8 rounded-full border border-white/20 shadow-sm flex-shrink-0" 
                       style={{ backgroundColor: opt.color }}

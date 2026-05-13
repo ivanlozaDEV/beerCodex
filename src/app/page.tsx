@@ -57,7 +57,7 @@ export default function Home() {
         delayChildren: 0.1
       }
     }
-  };
+  } as const;
 
   const itemVariants = {
     hidden: { opacity: 0, y: 25 },
@@ -66,7 +66,7 @@ export default function Home() {
       y: 0,
       transition: { type: "spring", stiffness: 110, damping: 20 }
     }
-  };
+  } as const;
 
   // Definitive localized copy dictionary from user spec
   const t = {
@@ -290,7 +290,9 @@ export default function Home() {
               animate={{ y: [0, -12, 0] }}
               transition={{ 
                 y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-                hover: { duration: 0.3 }
+                scale: { duration: 0.3 },
+                rotateY: { duration: 0.3 },
+                rotateX: { duration: 0.3 }
               }}
               style={{ perspective: 1000 }}
             >
