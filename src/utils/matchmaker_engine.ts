@@ -81,15 +81,15 @@ export function findBeerMatches(
     // ─── 3. MALT / HOP BALANCE (IBU/Tags) SCORES ───
     if (prefs.maltLevel !== "any") {
       maxPossibleScore += 30;
-      const tags = style.tags.map(t => t.toLowerCase());
+      const styleTags = (style.tags || []).map(tag => tag.toLowerCase());
       const sIbu = style.vital_statistics.ibu.max || 30;
 
       let matched = false;
-      if (prefs.maltLevel === "malty" && (tags.includes("malty") || tags.includes("maltosa") || sIbu < 25)) {
+      if (prefs.maltLevel === "malty" && (styleTags.includes("malty") || styleTags.includes("maltosa") || sIbu < 25)) {
         matched = true;
-      } else if (prefs.maltLevel === "hoppy" && (tags.includes("bitter") || tags.includes("hoppy") || tags.includes("amarga") || sIbu > 40)) {
+      } else if (prefs.maltLevel === "hoppy" && (styleTags.includes("bitter") || styleTags.includes("hoppy") || styleTags.includes("amarga") || sIbu > 40)) {
         matched = true;
-      } else if (prefs.maltLevel === "balanced" && (tags.includes("balanced") || tags.includes("balanceada") || (sIbu >= 25 && sIbu <= 40))) {
+      } else if (prefs.maltLevel === "balanced" && (styleTags.includes("balanced") || styleTags.includes("balanceada") || (sIbu >= 25 && sIbu <= 40))) {
         matched = true;
       }
 
@@ -101,10 +101,11 @@ export function findBeerMatches(
 
     // ─── 4. SPECIFIC FLAVOR SCANNING (Tags & Text) ───
     const combinedText = (
-      style.name + " " +
-      style.overall_impression + " " + 
-      style.flavor + " " + 
-      style.tags.join(" ")
+      (style.name || "") + " " +
+      (style.overall_impression || "") + " " + 
+      (style.flavor || "") + " " + 
+      (style.aroma || "") + " " +
+      (style.tags || []).join(" ")
     ).toLowerCase();
 
     prefs.flavors.forEach((flavor) => {
@@ -143,9 +144,18 @@ export function findBeerMatches(
     };
   });
 
-  // Sort results by descending score magnitude and return top 10
-  return results
-    .filter(r => r.score > 20) // Threshold to ensure relevance
+  // Sort results by descending score and return top 6
+  // If all prefs were "any", return a varied set as sensible defaults
+  const filtered = results.filter(r => r.score > 20);
+  if (filtered.length === 0) {
+    // Fallback: return top 6 styles with at least some data, sorted by style id
+    return results
+      .slice()
+      .sort((a, b) => a.style.id.localeCompare(b.style.id, undefined, { numeric: true }))
+      .slice(0, 6)
+      .map(r => ({ ...r, score: 75, matchingReasons: [lang === "es" ? "Estilo compatible con tus preferencias" : "Compatible with your preferences"] }));
+  }
+  return filtered
     .sort((a, b) => b.score - a.score)
     .slice(0, 6);
 }

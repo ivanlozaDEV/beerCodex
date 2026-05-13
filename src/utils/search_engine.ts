@@ -8,7 +8,9 @@ export function createSearchEngine(styles: BJCPStyle[]) {
     keys: [
       { name: "id", weight: 0.9 },
       { name: "name", weight: 0.8 },
+      { name: "category_name", weight: 0.7 },
       { name: "tags", weight: 0.6 },
+      { name: "commercial_examples", weight: 0.5 },
       { name: "overall_impression", weight: 0.4 },
       { name: "flavor", weight: 0.3 },
       { name: "aroma", weight: 0.3 },

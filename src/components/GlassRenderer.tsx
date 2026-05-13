@@ -25,7 +25,7 @@ export default function GlassRenderer({ srm, appearanceText = "", size = "md" }:
   
   // Scan appearance text for Haze/Clarity
   const scanText = appearanceText.toLowerCase();
-  const isOpaque = scanText.includes("opac") || scanText.includes("opaque") || (srm && srm > 30);
+  const isOpaque = scanText.includes("opac") || scanText.includes("opaque") || (typeof srm === 'number' && srm > 30);
   const isHazy = scanText.includes("haz") || scanText.includes("turbi") || scanText.includes("cloudy") || scanText.includes("velada");
   const isBrilliant = scanText.includes("brilliant") || scanText.includes("brillante") || scanText.includes("cristalina");
 

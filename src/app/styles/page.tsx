@@ -231,7 +231,7 @@ export default function StylesDashboard() {
       : "N/A";
 
     const avgSrm = style.vital_statistics.srm.min 
-      ? (style.vital_statistics.srm.min + style.vital_statistics.srm.max!) / 2 
+      ? (style.vital_statistics.srm.min + (style.vital_statistics.srm.max ?? style.vital_statistics.srm.min)) / 2 
       : 2;
 
     const isSelected = selectedForComparison.some(s => s.id === style.id);
@@ -344,7 +344,7 @@ export default function StylesDashboard() {
               <div className="text-left leading-tight flex flex-col relative z-10">
                 <span className="text-[9px] uppercase tracking-[0.2em] opacity-70 font-black flex items-center gap-1 mb-0.5">
                   <Sparkles className="w-3 h-3 animate-pulse" />
-                  AI Advisor
+                  Sensory Wizard
                 </span>
                 <span className="text-[13px] font-black tracking-tight uppercase flex items-center gap-2">
                   {t.matchmakerBtn.replace("🔮 ", "")}
@@ -543,7 +543,9 @@ export default function StylesDashboard() {
               {/* Big visual rendered cup (Centered for focus) */}
               <div className="flex-shrink-0 p-5 bg-black/20 rounded-2xl shadow-inner border border-white/5">
                 <GlassRenderer 
-                  srm={activeStyle.vital_statistics.srm.min ? (activeStyle.vital_statistics.srm.min + activeStyle.vital_statistics.srm.max!) / 2 : 2} 
+                  srm={activeStyle.vital_statistics.srm.min 
+                    ? (activeStyle.vital_statistics.srm.min + (activeStyle.vital_statistics.srm.max ?? activeStyle.vital_statistics.srm.min)) / 2 
+                    : 2} 
                   appearanceText={activeStyle.appearance}
                   size="md"
                 />
@@ -556,7 +558,7 @@ export default function StylesDashboard() {
                 <div className="p-3 sm:p-4 rounded-2xl glass-card flex flex-col justify-center min-w-0">
                   <span className="text-[10px] sm:text-xs font-bold tracking-widest uppercase opacity-50">ABV</span>
                   <span className="text-[14px] sm:text-sm md:text-[15px] font-extrabold mt-1 font-mono text-pilsner-gold whitespace-nowrap tracking-tight px-1">
-                    {activeStyle.vital_statistics.abv.min ? `${activeStyle.vital_statistics.abv.min}%-${activeStyle.vital_statistics.abv.max}%` : "N/A"}
+                    {activeStyle.vital_statistics.abv.min ? `${activeStyle.vital_statistics.abv.min}%-${activeStyle.vital_statistics.abv.max ?? activeStyle.vital_statistics.abv.min}%` : "N/A"}
                   </span>
                 </div>
 
@@ -795,7 +797,7 @@ export default function StylesDashboard() {
       <footer className="w-full border-t border-foreground/5 mt-16 py-8 flex flex-col items-center gap-3.5 relative z-10 opacity-80">
         <VisitorCounter />
         <p className="text-[9px] text-foreground/30 font-black uppercase tracking-[0.25em]">
-          BJCP Interactive Codex • Norte Cerveza Artesanal
+          BJCP Interactive Codex • Cervecería Cúspide
         </p>
       </footer>
     </div>
